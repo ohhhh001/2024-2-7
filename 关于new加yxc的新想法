@@ -1,0 +1,54 @@
+开辟空间
+int*p=new double t[];//返回的是地址
+delete p;
+Node node=node(1)
+Node *p=&node
+等价Node *p=new Node(1);
+
+#include <iostream>
+
+using namespace std;
+
+const int N = 100010;
+
+int q[N];
+
+int quick_sort(int q[], int l, int r, int k)
+{
+    if (l >= r) return q[l];
+
+    int i = l - 1, j = r + 1, x = q[l + r >> 1];
+    while (i < j)
+    {
+        do i ++ ; while (q[i] < x);
+        do j -- ; while (q[j] > x);
+        if (i < j) swap(q[i], q[j]);
+    }
+
+    if (j - l + 1 >= k) return quick_sort(q, l, j, k);
+    else return quick_sort(q, j + 1, r, k - (j - l + 1));
+}
+
+int main()
+{
+    int n, k;
+    scanf("%d%d", &n, &k);
+
+    for (int i = 0; i < n; i ++ ) scanf("%d", &q[i]);
+
+    cout << quick_sort(q, 0, n - 1, k) << endl;
+
+    return 0;
+}
+
+不太懂为啥可以j - l +1 来判断k的位置， 如果第一次递归判断选了右边，那么第二次判断j - l + 1的值是该区间左边有多少元素，不就忽略了上次在左边的元素了？
+
+
+skek   2021-05-04 18:52                 回复
+就是要忽略一部分，因为逻辑上已经就是选择的结果了，选择的部分就是需要求的一部分，另外一部分根本不需要排序了，每次都排序好一半，看k的位置是第几个。本质就是快速排序的优化，减少时间复杂度。
+
+为什么j - l + 1 >= k 啊 yxcnb
+
+
+君临天下   2019-05-21 23:27       1           回复
+我猜是因为快排每次排序完会将一个数放到正确位置，现在这个位置是j，则到前面l的数字的个数为j-i+1,如果大于k，则结果应该在左半边，否则右半边。
